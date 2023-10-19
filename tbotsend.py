@@ -2,14 +2,13 @@
 
 import os
 import requests
+import sys
 
 # Your Telegram bot token and the chat ID of the group
 chat_id = "change this"
 bot_token = "change this"
 
-
-
-def send_file_to_telegram(chat_id, bot_token, file_path, message=""):
+def send_file_to_telegram(file_path, message=""):
     method = "sendDocument"
     # Check if the file exists
     if not os.path.exists(file_path):
@@ -38,6 +37,12 @@ def send_file_to_telegram(chat_id, bot_token, file_path, message=""):
 
 
 if __name__ == "__main__":
-    file_path = input("File path: ")
-    message = input("Message (optional): ")
-    send_file_to_telegram(chat_id, bot_token, file_path, message)
+    if len(sys.argv) < 2:
+        print("Usage: script.py <file_path> [message]")
+        sys.exit(1)
+
+    file_path = sys.argv[1]
+    message = sys.argv[2] if len(sys.argv) > 2 else ""
+
+    send_file_to_telegram(file_path, message)
+
